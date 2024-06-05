@@ -5,23 +5,25 @@ import { COLORS } from "../../constant/Index";
 
 const MainContainer = ({ children, isCentered, isDark }) => {
   return (
-    <ScrollView
-      bounces={false}
-      alwaysBounceVertical={false}
-      automaticallyAdjustKeyboardInsets
-      automaticallyAdjustContentInsets
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={isCentered && styles.scrollViewContent}>
-      <SafeAreaView
-        style={[
-          styles.safeArea,
-          { backgroundColor: isDark ? COLORS.primary : "transparent" },
-        ]}>
-        <View style={[styles.innerContainer, isCentered && styles.center]}>
-          {children}
-        </View>
-      </SafeAreaView>
-    </ScrollView>
+    <View
+      style={{
+        backgroundColor: isDark ? COLORS.primary : "transparent",
+        flex: 1,
+      }}>
+      <ScrollView
+        bounces={false}
+        alwaysBounceVertical={false}
+        automaticallyAdjustKeyboardInsets
+        automaticallyAdjustContentInsets
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={[isCentered && styles.scrollViewContent, ,]}>
+        <SafeAreaView style={[styles.safeArea, ,]}>
+          <View style={[styles.innerContainer, isCentered && styles.center]}>
+            {children}
+          </View>
+        </SafeAreaView>
+      </ScrollView>
+    </View>
   );
 };
 
