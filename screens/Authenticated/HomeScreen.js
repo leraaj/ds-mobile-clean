@@ -17,9 +17,7 @@ const HomeScreen = ({ navigation }) => {
         <SectionContainer
           isLight
           header={"jobs offered"}
-          subHeader={"home based, hybrid"}>
-          <CustomButton label={"Logout"} onPress={handleLogout}></CustomButton>
-        </SectionContainer>
+          subHeader={"home based, hybrid"}></SectionContainer>
       </MainContainer>
     </>
   );
