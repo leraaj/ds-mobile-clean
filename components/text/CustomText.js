@@ -40,16 +40,18 @@ const CustomText = ({ children, font, size, isHeader, subHeader, isLight }) => {
   };
 
   return (
-    <View>
-      <View
-        style={{
-          borderBottomColor: isLight ? COLORS.lightWhite : "black",
-          borderBottomWidth: 5,
-          width: 30,
-          padding: 0,
-          margin: 0,
-        }}
-      />
+    <View style={{ paddingBottom: 30 }}>
+      {isHeader && (
+        <View
+          style={{
+            borderBottomColor: isLight ? COLORS.lightWhite : "black",
+            borderBottomWidth: 5,
+            width: 30,
+            padding: 0,
+            margin: 0,
+          }}
+        />
+      )}
       <Text
         style={{
           fontFamily: fontFamily(),
