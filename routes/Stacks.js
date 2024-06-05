@@ -62,6 +62,34 @@ const Stacks = () => {
           </>
         )
       }
+      initialRouteName=
+      {
+        // user
+        true ? "Authenticated" : "Blank"
+      }
+      screenOptions={{ headerShown: false }}>
+      {
+        // user
+        true ? (
+          isLoading ? (
+            <Stack.Screen name="Loading" component={LoadingScreen} />
+          ) : (
+            <>
+              <Stack.Screen
+                name="Authenticated"
+                component={HasBottomTabNavigation}
+              />
+              <Stack.Screen name="ViewJob" component={ViewJobScreen} />
+              <Stack.Screen name="JobSearch" component={ViewJobSearch} />
+            </>
+          )
+        ) : (
+          <>
+            <Stack.Screen name="Blank" component={BlankScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} />
+          </>
+        )
+      }
     </Stack.Navigator>
   );
 };

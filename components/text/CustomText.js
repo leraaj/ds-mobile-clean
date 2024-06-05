@@ -40,7 +40,7 @@ const CustomText = ({ children, font, size, isHeader, subHeader, isLight }) => {
   };
 
   return (
-    <View style={{ paddingBottom: 30 }}>
+    <View style={{ paddingBottom: isHeader ? 30 : 0 }}>
       {isHeader && (
         <View
           style={{

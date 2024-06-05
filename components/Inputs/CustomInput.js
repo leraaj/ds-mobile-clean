@@ -60,7 +60,7 @@ const CustomInput = ({
                     ? icons.viewLightPassword
                     : icons.viewPassword
                   : isLight
-                  ? icons.hideLightsPassword
+                  ? icons.hideLightPassword
                   : icons.hidePassword
               }
               style={SIZES.insetIconSmall}

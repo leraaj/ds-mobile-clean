@@ -5,39 +5,15 @@ import CustomText from "../../components/text/CustomText";
 import SectionContainer from "../../components/container/SectionContainer";
 import useFetch from "../../hooks/useFetch";
 import CustomButton from "../../components/button/CustomButton";
+import CustomButton from "../../components/button/CustomButton";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const HomeScreen = ({ navigation }) => {
-  const fs = global.customFonts;
-
-  const { data: jobs } = useFetch(
-    `https://darkshots-server.onrender.com/api/jobs`
-  );
-  const { data: categories } = useFetch(
-    `https://darkshots-server.onrender.com/api/categories`
-  );
-
-  const [displayJobsByCategory, setDisplayJobsByCategory] = useState({});
-
-  const fetchJobs = () => {
-    if (jobs.length > 0 && categories.length > 0) {
-      const jobsByCategory = categories.reduce((index, category) => {
-        index[category._id] = jobs.filter(
-          (job) => job.category._id === category._id
-        );
-        return index;
-      }, {});
-      setDisplayJobsByCategory(jobsByCategory);
-    }
-  };
-
-  useEffect(() => {
-    fetchJobs();
-  }, [jobs, categories]);
-
   return (
     <>
-      <MainContainer>
+      <MainContainer isDark>
         <SectionContainer
+          isLight
           header={"jobs offered"}
           subHeader={"home based, hybrid"}
         ></SectionContainer>
