@@ -33,27 +33,35 @@ const Stacks = () => {
   }
   return (
     <Stack.Navigator
-      initialRouteName={user ? "Authenticated" : "Blank"}
-      screenOptions={{ headerShown: false }}>
-      {user ? (
-        isLoading ? (
-          <Stack.Screen name="Loading" component={LoadingScreen} />
+      initialRouteName={
+        // user
+        true ? "Authenticated" : "Login"
+      }
+      screenOptions={{ headerShown: false }}
+    >
+      {
+        //user
+        true ? (
+          isLoading ? (
+            <Stack.Screen name="Loading" component={LoadingScreen} />
+          ) : (
+            <>
+              <Stack.Screen
+                name="Authenticated"
+                component={HasBottomTabNavigation}
+              />
+              <Stack.Screen name="ViewJob" component={ViewJobScreen} />
+              <Stack.Screen name="JobSearch" component={ViewJobSearch} />
+              <Stack.Screen name="HomeScreen" component={HomeScreen} />
+            </>
+          )
         ) : (
           <>
-            <Stack.Screen
-              name="Authenticated"
-              component={HasBottomTabNavigation}
-            />
-            <Stack.Screen name="ViewJob" component={ViewJobScreen} />
-            <Stack.Screen name="JobSearch" component={ViewJobSearch} />
+            <Stack.Screen name="Blank" component={BlankScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} />
           </>
         )
-      ) : (
-        <>
-          <Stack.Screen name="Blank" component={BlankScreen} />
-          <Stack.Screen name="Login" component={LoginScreen} />
-        </>
-      )}
+      }
     </Stack.Navigator>
   );
 };
@@ -65,8 +73,8 @@ const HasBottomTabNavigation = () => (
       tabBarInactiveTintColor: "gray",
       tabBarStyle: {
         backgroundColor: COLORS.secondary,
-        height: 60,
-        paddingVertical: 15,
+        height: 80,
+        paddingVertical: 10,
       },
       tabBarIcon: ({ size, color }) => {
         let iconName;
@@ -80,21 +88,22 @@ const HasBottomTabNavigation = () => (
         }
 
         return (
-          <MaterialCommunityIcons name={iconName} size={25} color={color} />
+          <MaterialCommunityIcons name={iconName} size={size} color={color} />
         );
       },
-    })}>
+    })}
+  >
     <Tab.Screen
-      name="Notification"
-      component={NotificationScreen}
+      name="Home"
+      component={HomeScreen}
       options={{
         headerShown: false,
         tabBarLabel: "",
       }}
     />
     <Tab.Screen
-      name="Home"
-      component={HomeScreen}
+      name="Notification"
+      component={NotificationScreen}
       options={{
         headerShown: false,
         tabBarLabel: "",
