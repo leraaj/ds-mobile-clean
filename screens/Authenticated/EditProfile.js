@@ -1,22 +1,15 @@
-import React, { useState, useContext } from "react";
-import { View, Text, Button, Image, StyleSheet } from "react-native";
-import { AuthContext } from "../../context/AuthContext";
+import React, { useState } from "react";
+import { View, Image } from "react-native";
 import MainContainer from "../../components/container/MainContainer";
-import CustomText from "../../components/text/CustomText";
+import Appbar from "react-native-paper/src/components/Appbar";
 import SectionContainer from "../../components/container/SectionContainer";
 import emptyImage from "../../assets/images/emptyImage.png";
-import download from "../../assets/icons/download.png";
-import CustomButton from "../../components/button/CustomButton";
-import Appbar from "react-native-paper/src/components/Appbar";
+import CustomText from "../../components/text/CustomText";
 import CustomInput from "../../components/Inputs/CustomInput";
+import CustomButton from "../../components/button/CustomButton";
+import download from "../../assets/icons/download.png";
 
-const ProfileScreen = ({ navigation }) => {
-  const { state, auth } = useContext(AuthContext);
-  const { user } = state;
-  const handleLogout = () => {
-    auth.logout(); // Call logout method from AuthContext
-  };
-
+const EditProfile = ({}) => {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFilePick = async () => {
@@ -32,6 +25,12 @@ const ProfileScreen = ({ navigation }) => {
         console.log(err);
       }
     }
+  };
+
+  const user = {
+    fullName: "",
+    email: "",
+    contact: "",
   };
 
   return (
@@ -56,32 +55,25 @@ const ProfileScreen = ({ navigation }) => {
         <View
           style={{
             display: "flex",
-            rowGap: 20,
-            marginBottom: 30,
           }}
         >
-          <View
-            style={{
-              display: "flex",
-            }}
-          >
-            <CustomInput
-              title={"Full Name"}
-              value={user?.fullName}
-              disabled
-            ></CustomInput>
-            <CustomInput
-              title={"Email"}
-              value={user?.email}
-              disabled
-            ></CustomInput>
-            <CustomInput
-              title={"Contact Number"}
-              value={user?.contact}
-              disabled
-            ></CustomInput>
-          </View>
+          <CustomInput
+            title={"Full Name"}
+            value={user?.fullName}
+            onChangeText={""}
+          ></CustomInput>
+          <CustomInput
+            title={"Email"}
+            value={user?.email}
+            onChangeText={""}
+          ></CustomInput>
+          <CustomInput
+            title={"Contact Number"}
+            value={user?.contact}
+            onChangeText={""}
+          ></CustomInput>
         </View>
+
         <SectionContainer header={"skills"}></SectionContainer>
         <SectionContainer header={"files"}>
           <CustomText size={"md"} font={"poppinsMedium"}>
@@ -98,6 +90,14 @@ const ProfileScreen = ({ navigation }) => {
               variant={"internal"}
               label={"Download"}
             ></CustomButton>
+            <Image
+              source={download}
+              style={{
+                tintColor: "red",
+                height: 20,
+                width: 18,
+              }}
+            ></Image>
           </View>
 
           <CustomText size={"md"} font={"poppinsMedium"}>
@@ -109,4 +109,4 @@ const ProfileScreen = ({ navigation }) => {
   );
 };
 
-export default ProfileScreen;
+export default EditProfile;

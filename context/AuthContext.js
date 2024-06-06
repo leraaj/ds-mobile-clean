@@ -6,6 +6,7 @@ import React, {
   useState,
 } from "react";
 import * as SecureStore from "expo-secure-store";
+import LoadingScreen from "../routes/LoadingScreen";
 
 const AuthContext = createContext();
 
@@ -29,18 +30,47 @@ const AuthProvider = ({ children, navigation }) => {
   const [error, setError] = useState(null);
   const [loginSuccess, setLoginSuccess] = useState(false);
 
-  useEffect(() => {
-    const bootstrapAsync = async () => {
-      try {
-        const userToken = await SecureStore.getItemAsync("userToken");
-        dispatch({ type: "LOGIN", token: userToken, user: state?.user });
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setIsLoading(false);
+  const URL = `https://darkshots-server.onrender.com/api/user/current-user-mobile`;
+
+  const refreshUser = async () => {
+    setIsLoading(true);
+    try {
+      const userToken = await SecureStore.getItemAsync("token");
+      if (!userToken) {
+        throw new Error("Token not found");
       }
-    };
-    bootstrapAsync();
+
+      const response = await fetch(URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+        credentials: "include",
+        sameSite: "None",
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setIsLoading(false);
+        dispatch({ type: "LOGIN", token: userToken, user: data.user });
+        // console.log("User Refreshed:", data.user);
+      } else {
+        // console.error("message: ", data.message);
+        setError(data.message);
+        dispatch({ type: "LOGOUT" });
+      }
+    } catch (error) {
+      setError(error.message);
+      // console.error("Error refreshing user:", error);
+      dispatch({ type: "LOGOUT" });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    refreshUser();
   }, []);
 
   const auth = useMemo(
@@ -62,7 +92,7 @@ const AuthProvider = ({ children, navigation }) => {
           if (response.ok) {
             const { user, token } = await response.json();
             if (user?.position === 3) {
-              await SecureStore.setItemAsync("userToken", token);
+              await SecureStore.setItemAsync("token", token);
               dispatch({ type: "LOGIN", token, user });
               setError("");
               setLoginSuccess(true);
@@ -80,13 +110,13 @@ const AuthProvider = ({ children, navigation }) => {
           }
         } catch (error) {
           setIsLoading(false);
-          console.error(error);
+          // console.error(error);
         }
       },
       logout: async () => {
         try {
           setIsLoading(true);
-          await SecureStore.deleteItemAsync("userToken");
+          await SecureStore.deleteItemAsync("token");
           setTimeout(() => {
             dispatch({ type: "LOGOUT" });
             setIsLoading(false);
@@ -95,12 +125,11 @@ const AuthProvider = ({ children, navigation }) => {
           }, 3000);
         } catch (e) {
           console.error("Failed to delete the user token.", e);
-        } finally {
         }
       },
       register: async () => {
         const userToken = "dummy-auth-token";
-        await SecureStore.setItemAsync("userToken", userToken);
+        await SecureStore.setItemAsync("token", userToken);
         dispatch({ type: "LOGIN", token: userToken, user: {} });
       },
     }),
@@ -109,7 +138,8 @@ const AuthProvider = ({ children, navigation }) => {
 
   return (
     <AuthContext.Provider
-      value={{ state, auth, isLoading, error, loginSuccess }}>
+      value={{ state, auth, isLoading, error, loginSuccess }}
+    >
       {children}
     </AuthContext.Provider>
   );

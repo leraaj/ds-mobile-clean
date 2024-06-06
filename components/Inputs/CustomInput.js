@@ -16,6 +16,8 @@ const CustomInput = ({
   isPassword,
   onChangeText,
   isLight,
+  disabled,
+  value,
 }) => {
   const { toggle, toggler } = useToggle();
 
@@ -29,13 +31,16 @@ const CustomInput = ({
         {title || "Enter Label"}
       </Text>
       <View
-        style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+        style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+      >
         <TextInput
           placeholder={placeholder || ""}
           autoCapitalize="none"
           autoComplete="off"
           onChangeText={onChangeText}
           placeholderTextColor={COLORS.gray2}
+          {...(value && { value: value })}
+          {...(disabled && { editable: false })}
           {...(isPassword && { secureTextEntry: !toggle ? true : false })}
           style={[
             styles.inputContainer,
@@ -52,7 +57,8 @@ const CustomInput = ({
               paddingVertical: 10,
               justifyContent: "center",
               alignItems: "center",
-            }}>
+            }}
+          >
             <Image
               source={
                 toggle

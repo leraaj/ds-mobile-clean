@@ -13,10 +13,18 @@ import LoadingScreen from "./LoadingScreen";
 import ViewJobScreen from "../screens/Authenticated/ViewJobScreen";
 import BlankScreen from "../screens/BlankScreen";
 import ViewJobSearch from "../screens/Authenticated/ViewJobSearch";
+import EditProfile from "../screens/Authenticated/EditProfile";
+import ViewPortfolio from "../screens/Authenticated/ViewPortfolio";
+import ViewImage from "../screens/Authenticated/ViewImage";
+import ViewNotification from "../screens/Authenticated/ViewNotification";
+import RegisterScreen from "../screens/Authenticated/RegisterScreen";
+import Register11 from "../screens/Authenticated/Register11";
+import Register12 from "../screens/Authenticated/Register12";
+import Register13 from "../screens/Authenticated/Register13";
+import Register131 from "../screens/Authenticated/Register131";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
 const Stacks = () => {
   const { state, isLoading } = useAuthContext();
   const { user } = state;
@@ -35,7 +43,7 @@ const Stacks = () => {
     <Stack.Navigator
       initialRouteName={
         // user
-        true ? "Authenticated" : "Login"
+        true ? "EditProfile" : "Login"
       }
       screenOptions={{ headerShown: false }}
     >
@@ -53,39 +61,28 @@ const Stacks = () => {
               <Stack.Screen name="ViewJob" component={ViewJobScreen} />
               <Stack.Screen name="JobSearch" component={ViewJobSearch} />
               <Stack.Screen name="HomeScreen" component={HomeScreen} />
-            </>
-          )
-        ) : (
-          <>
-            <Stack.Screen name="Blank" component={BlankScreen} />
-            <Stack.Screen name="Login" component={LoginScreen} />
-          </>
-        )
-      }
-      initialRouteName=
-      {
-        // user
-        true ? "Authenticated" : "Blank"
-      }
-      screenOptions={{ headerShown: false }}>
-      {
-        // user
-        true ? (
-          isLoading ? (
-            <Stack.Screen name="Loading" component={LoadingScreen} />
-          ) : (
-            <>
+              <Stack.Screen name="Profile" component={ProfileScreen} />
+              <Stack.Screen name="EditProfile" component={EditProfile} />
+              <Stack.Screen name="ViewPortfolio" component={ViewPortfolio} />
+              <Stack.Screen name="ViewImage" component={ViewImage} />
               <Stack.Screen
-                name="Authenticated"
-                component={HasBottomTabNavigation}
+                name="NotificationScreen"
+                component={NotificationScreen}
               />
-              <Stack.Screen name="ViewJob" component={ViewJobScreen} />
-              <Stack.Screen name="JobSearch" component={ViewJobSearch} />
+              <Stack.Screen
+                name="ViewNotification"
+                component={ViewNotification}
+              />
+              <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+              <Stack.Screen name="Register11" component={Register11} />
+              <Stack.Screen name="Register12" component={Register12} />
+              <Stack.Screen name="Register13" component={Register13} />
+              <Stack.Screen name="Register131" component={Register131} />
             </>
           )
         ) : (
           <>
-            <Stack.Screen name="Blank" component={BlankScreen} />
+            {/* <Stack.Screen name="Blank" component={BlankScreen} /> */}
             <Stack.Screen name="Login" component={LoginScreen} />
           </>
         )

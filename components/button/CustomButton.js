@@ -31,6 +31,8 @@ const CustomButton = ({ label, variant, onPress, isLoading, width }) => {
         return styles.yesButton;
       case "no":
         return styles.noButton;
+      case "filter":
+        return styles.filterButton;
       default:
         return styles.internalButton;
     }
@@ -43,14 +45,9 @@ const CustomButton = ({ label, variant, onPress, isLoading, width }) => {
       activeOpacity={0.75}
       style={[button, { width: width || "auto" }]}
       onPress={onPress}
-      disabled={isLoading}>
-      <Text
-        style={[
-          labelStyle,
-          {
-            fontFamily: FONT.montserrat,
-          },
-        ]}>
+      disabled={isLoading}
+    >
+      <Text style={[labelStyle]}>
         {isLoading ? <ActivityIndicator size="small" color="#fff" /> : label}
       </Text>
     </TouchableOpacity>
@@ -81,7 +78,12 @@ const styles = StyleSheet.create({
       justifyContent: "center",
       alignItems: "center",
     },
-    label: { color: "#646363", fontSize: 12, textTransform: "capitalize" },
+    label: {
+      color: "#646363",
+      fontSize: 12,
+      textTransform: "capitalize",
+      fontFamily: FONT.montserrat,
+    },
   },
   internalButton: {
     button: {
@@ -93,7 +95,12 @@ const styles = StyleSheet.create({
       alignItems: "center",
       borderRadius: 5,
     },
-    label: { color: "#FFFFFF", fontSize: 15, textTransform: "capitalize" },
+    label: {
+      color: "#FFFFFF",
+      fontSize: 15,
+      textTransform: "capitalize",
+      fontFamily: FONT.montserrat,
+    },
   },
   viewNotificationButton: {
     button: {
@@ -106,7 +113,12 @@ const styles = StyleSheet.create({
       justifyContent: "center",
       alignItems: "center",
     },
-    label: { color: COLORS.white, fontSize: 12, textTransform: "capitalize" },
+    label: {
+      color: COLORS.white,
+      fontSize: 12,
+      textTransform: "capitalize",
+      fontFamily: FONT.montserrat,
+    },
   },
   yesButton: {
     button: {
@@ -118,7 +130,12 @@ const styles = StyleSheet.create({
       alignItems: "center",
       borderRadius: 25,
     },
-    label: { color: COLORS.white, fontSize: 15, textTransform: "capitalize" },
+    label: {
+      color: COLORS.white,
+      fontSize: 15,
+      textTransform: "capitalize",
+      fontFamily: FONT.montserrat,
+    },
   },
   noButton: {
     button: {
@@ -131,7 +148,30 @@ const styles = StyleSheet.create({
       alignItems: "center",
       borderRadius: 25,
     },
-    label: { color: COLORS.black, fontSize: 15, textTransform: "capitalize" },
+    label: {
+      color: COLORS.black,
+      fontSize: 15,
+      textTransform: "capitalize",
+      fontFamily: FONT.montserrat,
+    },
+  },
+  filterButton: {
+    button: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: 29,
+      paddingHorizontal: 15,
+      borderRadius: 5,
+      borderWidth: 1,
+      marginHorizontal: 3,
+    },
+    label: {
+      color: COLORS.black,
+      fontSize: SIZES.small,
+      textTransform: "capitalize",
+      fontFamily: FONT.poppinsMedium,
+    },
   },
 });
 

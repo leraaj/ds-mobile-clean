@@ -2,7 +2,15 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { FONT, SIZES, COLORS } from "../../constant/theme";
 
-const CustomText = ({ children, font, size, isHeader, subHeader, isLight }) => {
+const CustomText = ({
+  children,
+  font,
+  size,
+  isHeader,
+  subHeader,
+  isLight,
+  transform,
+}) => {
   const fontFamily = () => {
     if (isHeader) return FONT.agdasimaBold;
     switch (font) {
@@ -56,10 +64,15 @@ const CustomText = ({ children, font, size, isHeader, subHeader, isLight }) => {
         style={{
           fontFamily: fontFamily(),
           fontSize: fontSize(),
-          textTransform: isHeader ? "uppercase" : "none",
+          textTransform: isHeader
+            ? "uppercase"
+            : transform
+            ? transform
+            : "none",
           color: isLight ? COLORS.lightWhite : "black",
           marginTop: -4,
-        }}>
+        }}
+      >
         {children}
       </Text>
       {isHeader && subHeader && (
@@ -69,7 +82,8 @@ const CustomText = ({ children, font, size, isHeader, subHeader, isLight }) => {
             fontSize: 17,
             textTransform: "capitalize",
             color: isLight ? COLORS.lightWhite : "black",
-          }}>
+          }}
+        >
           ({subHeader})
         </Text>
       )}
