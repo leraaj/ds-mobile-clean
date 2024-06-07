@@ -35,6 +35,7 @@ const Stacks = () => {
     Agdasima: require("../assets/fonts/Agdasima/Agdasima-Regular.ttf"),
     AgdasimaBold: require("../assets/fonts/Agdasima/Agdasima-Bold.ttf"),
     Montserrat: require("../assets/fonts/Montserrat/static/Montserrat-Regular.ttf"),
+    MontserratBold: require("../assets/fonts/Montserrat/static/Montserrat-Bold.ttf"),
   });
 
   if (!fontsLoaded) {
@@ -44,7 +45,7 @@ const Stacks = () => {
     <Stack.Navigator
       initialRouteName={
         //user
-        true ? "Authenticated" : "ViewJob"
+        true ? "Register13" : "Login"
       }
       screenOptions={{ headerShown: false }}
     >

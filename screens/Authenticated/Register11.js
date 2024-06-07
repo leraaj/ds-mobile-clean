@@ -3,6 +3,7 @@ import MainContainer from "../../components/container/MainContainer";
 import SectionContainer from "../../components/container/SectionContainer";
 import CustomInput from "../../components/Inputs/CustomInput";
 import CustomButton from "../../components/button/CustomButton";
+import { View } from "react-native";
 
 const Register11 = ({}) => {
   return (
@@ -26,7 +27,9 @@ const Register11 = ({}) => {
         header={"select your skills"}
       ></SectionContainer>
 
-      <CustomButton variant={"landing"} label={"NEXT"}></CustomButton>
+      <View style={{ paddingVertical: 30 }}>
+        <CustomButton variant={"landing"} label={"NEXT"}></CustomButton>
+      </View>
     </MainContainer>
   );
 };

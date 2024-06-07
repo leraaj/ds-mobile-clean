@@ -18,6 +18,7 @@ const FONT = {
   agdasima: "Agdasima",
   agdasimaBold: "AgdasimaBold",
   montserrat: "Montserrat",
+  montserratBold: "MontserratBold",
 };
 
 const SIZES = {

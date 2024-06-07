@@ -9,10 +9,6 @@ const Register12 = ({}) => {
   return (
     <MainContainer isDark>
       <SectionContainer isLight header={"upload your resume"}>
-        <CustomText isLight font={"poppinsMedium"}>
-          CV / Resume
-        </CustomText>
-
         <View style={{ alignItems: "center", marginVertical: 20 }}>
           <CustomText isLight>or</CustomText>
         </View>

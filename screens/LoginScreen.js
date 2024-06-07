@@ -65,11 +65,12 @@ const LoginScreen = ({ navigation }) => {
         <View style={{ alignItems: "flex-end" }}>
           <CustomText font={"montserrat"} size={SIZES.xSmall} isLight>
             Don’t have an account?{" "}
-            <Text
+            <CustomText
               style={{ fontWeight: "bold" }}
-              onPress={() => navigation.navigate("Register")}>
+              onPress={() => navigation.navigate("Register")}
+            >
               Sign up
-            </Text>
+            </CustomText>
           </CustomText>
         </View>
         {/* <CustomButton

@@ -8,11 +8,28 @@ import { TouchableOpacity, View } from "react-native";
 const RegisterScreen = ({ navigation }) => {
   return (
     <MainContainer isDark>
-      <View style={{ marginVertical: 60, gap: 45 }}>
-        <CustomText isLight font={"montserrat"} size={"xl"}>
-          Looking for Jobs?{"\n"}Want to provide{"\n"}services?
+      <View
+        style={{
+          flex: 1,
+          paddingVertical: 40,
+          flexWrap: "wrap",
+          flexDirection: "row",
+        }}
+      >
+        <CustomText font={"montserrat"} size={"xl"} isLight>
+          <CustomText font={"montserratBold"} size={"xl"} isLight>
+            Looking
+          </CustomText>{" "}
+          for Jobs? {"\n"}Want to{" "}
+          <CustomText font={"montserratBold"} size={"xl"} isLight>
+            provide
+          </CustomText>{" "}
+          {"\n"}services?
         </CustomText>
-        <CustomText isLight font={"montserrat"} size={"xl"}>
+      </View>
+
+      <View style={{ paddingBottom: 40 }}>
+        <CustomText font={"montserrat"} size={"xl"} isLight>
           {"Join us"}
         </CustomText>
       </View>
@@ -25,11 +42,14 @@ const RegisterScreen = ({ navigation }) => {
         onChangeText={""}
       ></CustomInput>
 
-      <CustomButton
-        variant={"landing"}
-        label={"NEXT"}
-        onPress={() => navigation.navigate("HomeScreen")}
-      ></CustomButton>
+      <View style={{ paddingTop: 30 }}>
+        <CustomButton
+          variant={"landing"}
+          label={"NEXT"}
+          onPress={() => navigation.navigate("HomeScreen")}
+        ></CustomButton>
+      </View>
+
       <View
         style={{
           flexDirection: "row",

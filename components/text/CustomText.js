@@ -24,6 +24,8 @@ const CustomText = ({
         return FONT.poppinsMedium;
       case "montserrat":
         return FONT.montserrat;
+      case "montserratBold":
+        return FONT.montserratBold;
       default:
         return FONT.poppins;
     }
