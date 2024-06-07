@@ -45,7 +45,7 @@ const Stacks = () => {
     <Stack.Navigator
       initialRouteName={
         //user
-        true ? "Register13" : "Login"
+        true ? "Register131" : "Login"
       }
       screenOptions={{ headerShown: false }}
     >

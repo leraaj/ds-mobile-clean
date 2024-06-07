@@ -12,7 +12,7 @@ const ViewImage = ({ navigation }) => {
           onPress={() => navigation.navigate("ViewPortfolio")}
         />
       </Appbar.Header>
-      <MainContainer>
+      <MainContainer isDark>
         <View
           style={{
             marginTop: 150,
@@ -21,8 +21,8 @@ const ViewImage = ({ navigation }) => {
           <Image
             source={emptyImage}
             style={{
-              height: 242,
               width: "100%",
+              height: 242,
             }}
           ></Image>
         </View>

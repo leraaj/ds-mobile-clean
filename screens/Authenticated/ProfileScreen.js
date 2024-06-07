@@ -73,14 +73,54 @@ const ProfileScreen = ({ navigation }) => {
             />
           </View>
         </SectionContainer>
-        <SectionContainer header={"skills"}></SectionContainer>
-        <SectionContainer header={"files"}>
-          <CustomButton title="Resume" isChooseFile disabled />
-          <CustomButton variant={"multiple"} />
+        <SectionContainer header={"skills"}>
+          <View
+            style={{
+              flexWrap: "wrap",
+              flexDirection: "row",
+              gap: 8,
+              paddingVertical: 30,
+            }}
+          >
+            <CustomButton
+              variant={"learn"}
+              label={"Test"}
+              isLight
+            ></CustomButton>
+          </View>
         </SectionContainer>
+
+        <SectionContainer header={"files"}>
+          <View style={{ paddingVertical: 30 }}>
+            <CustomButton title="Resume" isChooseFile disabled />
+          </View>
+        </SectionContainer>
+
+        <View style={styles.uploadContainer}>
+          <Text style={[styles.uploadText]}>{"7 Files"}</Text>
+        </View>
       </MainContainer>
     </>
   );
 };
+
+export const styles = StyleSheet.create({
+  uploadContainer: {
+    borderWidth: 2,
+    borderRadius: 5,
+    borderColor: "#18191A",
+    height: 100,
+    borderStyle: "dashed",
+    columnGap: 8,
+    justifyContent: "center",
+    marginBottom: 50,
+  },
+  uploadText: {
+    fontFamily: "Poppins-Regular",
+    color: "#18191A",
+    fontSize: 15,
+    alignSelf: "center",
+  },
+});
 
 export default ProfileScreen;
