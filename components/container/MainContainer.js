@@ -1,29 +1,60 @@
 import React from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  RefreshControl,
+  ActivityIndicator,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { COLORS } from "../../constant/Index";
+import { COLORS } from "../../constant/theme";
 
-const MainContainer = ({ children, isCentered, isDark }) => {
+const MainContainer = ({
+  children,
+  isCentered,
+  isDark,
+  hasSlipContainer,
+  refresh,
+  isLoading,
+}) => {
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    refresh && refresh();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 200);
+  }, [refresh]);
+
   return (
-    <View
-      style={{
-        backgroundColor: isDark ? COLORS.primary : "transparent",
-        flex: 1,
-      }}>
-      <ScrollView
-        bounces={false}
-        alwaysBounceVertical={false}
-        automaticallyAdjustKeyboardInsets
-        automaticallyAdjustContentInsets
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={[isCentered && styles.scrollViewContent, ,]}>
-        <SafeAreaView style={[styles.safeArea, ,]}>
-          <View style={[styles.innerContainer, isCentered && styles.center]}>
-            {children}
-          </View>
-        </SafeAreaView>
-      </ScrollView>
-    </View>
+    <ScrollView
+      bounces={false}
+      alwaysBounceVertical={false}
+      automaticallyAdjustKeyboardInsets
+      automaticallyAdjustContentInsets
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={[
+        isCentered && styles.scrollViewContent,
+        {
+          backgroundColor: isDark ? COLORS.primary : "transparent",
+        },
+      ]}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
+      <SafeAreaView style={styles.safeArea}>
+        <View
+          style={[
+            !hasSlipContainer && styles.innerContainer,
+            isCentered && styles.center,
+          ]}
+        >
+          {children}
+        </View>
+      </SafeAreaView>
+    </ScrollView>
   );
 };
 
@@ -34,6 +65,7 @@ const styles = StyleSheet.create({
   innerContainer: {
     flex: 1,
     paddingHorizontal: 25,
+    paddingBottom: 70,
     width: "100%", // Ensure it takes full width
   },
   center: {
@@ -42,7 +74,13 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     flexGrow: 1,
-    justifyContent: "center",
+  },
+  loadingIndicator: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: [{ translateX: -12.5 }, { translateY: -12.5 }],
+    zIndex: 1,
   },
 });
 

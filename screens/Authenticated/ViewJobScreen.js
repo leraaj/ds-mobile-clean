@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
-import { View } from "react-native";
-import { AuthContext } from "../../context/AuthContext";
+import React from "react";
 import MainContainer from "../../components/container/MainContainer";
-import { Appbar } from "react-native-paper";
+import { Appbar, useTheme } from "react-native-paper";
 import CustomText from "../../components/text/CustomText";
 import CustomButton from "../../components/button/CustomButton";
+import { COLORS, icons } from "../../constant/Index";
+import SlipContainer from "../../components/container/SlipContainer";
+import { View } from "react-native";
 
 const ViewJobScreen = ({ navigation, route }) => {
   const { job } = route.params;
@@ -16,45 +17,82 @@ const ViewJobScreen = ({ navigation, route }) => {
 
   return (
     <>
-      <Appbar.Header>
-        <Appbar.BackAction onPress={() => navigation.navigate("Home")} />
+      <Appbar.Header style={{ backgroundColor: COLORS.primary, zIndex: 0 }}>
+        <Appbar.BackAction color="white" onPress={() => navigation.goBack()} />
       </Appbar.Header>
-      <MainContainer>
-        <CustomText size={"lg"}>{title}</CustomText>
-        <CustomText>{`Why become a ${title}?`}</CustomText>
-        <View style={{ marginVertical: 10 }}>
-          <CustomText>{why}</CustomText>
-        </View>
-        <CustomText>{`What does the role require?`}</CustomText>
-        <View style={{ marginVertical: 10 }}>
-          <CustomText>{what}</CustomText>
-        </View>
-        <CustomText>{`Typical responsibilities include:`}</CustomText>
-        <View style={{ marginVertical: 10 }}>
-          {job?.details?.responsibilities.map((res) => {
-            return <CustomText>• {res} </CustomText>;
-          })}
-        </View>
-        <CustomText>{`Requirements and skills`}</CustomText>
-        <View style={{ marginVertical: 10 }}>
-          {job?.details?.requirements.map((res) => {
-            return <CustomText>• {res} </CustomText>;
-          })}
-        </View>
-        <CustomText>{`Benefits`}</CustomText>
-        <CustomText>{pay}</CustomText>
-        <CustomText>{schedule}</CustomText>
+      <MainContainer hasSlipContainer isDark>
+        <SlipContainer title={title}>
+          <CustomText style={{}}>
+            <View style={{ gap: 20, marginBottom: 25 }}>
+              <CustomText size={"lg"} font={"poppinsMedium"}>
+                {`Why become a ${title}?`}
+              </CustomText>
 
-        <CustomText>{`Our Hiring Process:`}</CustomText>
-        <CustomText>{`Initial Interview`}</CustomText>
-        <CustomText>{`Final Interview`}</CustomText>
+              <CustomText>{why}</CustomText>
+            </View>
 
-        <CustomButton variant={"internal"} label={"Apply Now"}>
-          {"Apply Now"}
-        </CustomButton>
+            <View style={{ gap: 20, marginBottom: 25 }}>
+              <CustomText
+                size={"lg"}
+                font={"poppinsMedium"}
+              >{`What does the role require?`}</CustomText>
+              <CustomText>{what}</CustomText>
+            </View>
+
+            <View style={{ gap: 15, marginTop: 10 }}>
+              <CustomText
+                size={"md"}
+                font={"poppinsMedium"}
+              >{`Typical responsibilities include:`}</CustomText>
+              {job?.details?.responsibilities.map((res, index) => {
+                return <CustomText key={index}>• {res} </CustomText>;
+              })}
+            </View>
+            <View style={{ gap: 15, marginTop: 25 }}>
+              <CustomText
+                size={"lg"}
+                font={"poppinsMedium"}
+              >{`Requirements and skills`}</CustomText>
+              {job?.details?.requirements.map((res, index) => {
+                return <CustomText key={index}>• {res} </CustomText>;
+              })}
+            </View>
+
+            <View style={{ gap: 20, marginTop: 25 }}>
+              <CustomText
+                size={"lg"}
+                font={"poppinsMedium"}
+              >{`Benefits:`}</CustomText>
+
+              <View
+                style={{
+                  flexDirection: "row",
+                  gap: 10,
+                  flexWrap: "wrap",
+                }}
+              >
+                <CustomText>{`Pay: ${pay}`}</CustomText>
+
+                <CustomText>{`Schedule: ${schedule}`}</CustomText>
+              </View>
+            </View>
+
+            <View style={{ gap: 10, marginTop: 25, marginBottom: 60 }}>
+              <CustomText
+                size={"lg"}
+                font={"poppinsMedium"}
+              >{`Our Hiring Process:`}</CustomText>
+              <CustomText>{`Initial Interview`}</CustomText>
+              <CustomText>{`Final Interview`}</CustomText>
+            </View>
+          </CustomText>
+
+          <CustomButton variant={"internal"} label={"Apply Now"}>
+            {"Apply Now"}
+          </CustomButton>
+        </SlipContainer>
       </MainContainer>
     </>
   );
 };
-
 export default ViewJobScreen;

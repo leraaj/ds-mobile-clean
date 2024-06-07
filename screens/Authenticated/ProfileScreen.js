@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { View, Text, Button, Image, StyleSheet } from "react-native";
+import { View, Text, Button, Image, StyleSheet, Platform } from "react-native";
 import { AuthContext } from "../../context/AuthContext";
 import MainContainer from "../../components/container/MainContainer";
 import CustomText from "../../components/text/CustomText";
@@ -11,6 +11,8 @@ import Appbar from "react-native-paper/src/components/Appbar";
 import CustomInput from "../../components/Inputs/CustomInput";
 
 const ProfileScreen = ({ navigation }) => {
+  const MORE_ICON = Platform.OS === "ios" ? "dots-horizontal" : "dots-vertical";
+
   const { state, auth } = useContext(AuthContext);
   const { user } = state;
   const handleLogout = () => {
@@ -37,72 +39,44 @@ const ProfileScreen = ({ navigation }) => {
   return (
     <>
       <Appbar.Header>
-        <Appbar.BackAction onPress={() => navigation.navigate("Home")} />
+        <Appbar.BackAction onPress={() => navigation.goBack()} />
+        <Appbar.Content />
+        <Appbar.Action
+          icon={MORE_ICON}
+          onPress={() => navigation.navigate("EditProfile")}
+        />
       </Appbar.Header>
       <MainContainer>
         <SectionContainer header={"profile"}>
-          <View style={{ display: "flex" }}>
-            <Image
-              source={emptyImage}
-              style={{
-                borderRadius: 50,
-                height: 80,
-                width: 80,
-                marginBottom: 20,
-              }}
-            ></Image>
-          </View>
-        </SectionContainer>
-        <View
-          style={{
-            display: "flex",
-            rowGap: 20,
-            marginBottom: 30,
-          }}
-        >
+          <Image
+            source={emptyImage}
+            style={{
+              borderRadius: 50,
+              height: 80,
+              width: 80,
+              marginBottom: 20,
+            }}
+          ></Image>
           <View
             style={{
               display: "flex",
+              rowGap: 20,
+              paddingBottom: 30,
             }}
           >
-            <CustomInput
-              title={"Full Name"}
-              value={user?.fullName}
-              disabled
-            ></CustomInput>
-            <CustomInput
-              title={"Email"}
-              value={user?.email}
-              disabled
-            ></CustomInput>
+            <CustomInput title={"Full Name"} value={user?.fullName} disabled />
+            <CustomInput title={"Email"} value={user?.email} disabled />
             <CustomInput
               title={"Contact Number"}
               value={user?.contact}
               disabled
-            ></CustomInput>
+            />
           </View>
-        </View>
+        </SectionContainer>
         <SectionContainer header={"skills"}></SectionContainer>
         <SectionContainer header={"files"}>
-          <CustomText size={"md"} font={"poppinsMedium"}>
-            {"Resume"}
-          </CustomText>
-
-          <View style={{ flexDirection: "row" }}>
-            <CustomText label={"Download"}>
-              {selectedFile ? selectedFile.name : "file.pdf"}
-            </CustomText>
-
-            <CustomButton
-              onPress={handleFilePick}
-              variant={"internal"}
-              label={"Download"}
-            ></CustomButton>
-          </View>
-
-          <CustomText size={"md"} font={"poppinsMedium"}>
-            {"View Portfolio"}
-          </CustomText>
+          <CustomButton title="Resume" isChooseFile disabled />
+          <CustomButton variant={"multiple"} />
         </SectionContainer>
       </MainContainer>
     </>

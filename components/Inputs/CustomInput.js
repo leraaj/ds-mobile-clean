@@ -18,6 +18,7 @@ const CustomInput = ({
   isLight,
   disabled,
   value,
+  isDownload,
 }) => {
   const { toggle, toggler } = useToggle();
 
@@ -26,7 +27,7 @@ const CustomInput = ({
   const labelColor = isLight ? COLORS.gray2 : COLORS.black;
 
   return (
-    <View style={[styles.formContainer]}>
+    <View style={[!isDownload && styles.formContainer, { width: "auto" }]}>
       <Text style={[styles.label, { color: labelColor }]}>
         {title || "Enter Label"}
       </Text>
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     fontFamily: FONT.poppins,
-    height: 45,
+    height: 40,
     fontSize: SIZES.medium,
     paddingStart: 10,
     paddingEnd: 40,

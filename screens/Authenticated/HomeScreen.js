@@ -1,20 +1,25 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, ScrollView } from "react-native";
 import MainContainer from "../../components/container/MainContainer";
 import CustomText from "../../components/text/CustomText";
 import SectionContainer from "../../components/container/SectionContainer";
 import useFetch from "../../hooks/useFetch";
 import CustomButton from "../../components/button/CustomButton";
+import SlipContainer from "../../components/container/SlipContainer";
+import { Appbar, Searchbar, ActivityIndicator } from "react-native-paper";
+import { COLORS } from "../../constant/theme";
 
 const HomeScreen = ({ navigation }) => {
-  const fs = global.customFonts;
-
-  const { data: jobs } = useFetch(
-    `https://darkshots-server.onrender.com/api/jobs`
-  );
-  const { data: categories } = useFetch(
-    `https://darkshots-server.onrender.com/api/categories`
-  );
+  const {
+    data: jobs,
+    isLoading: isLoadingJobs,
+    refresh: refreshJobs,
+  } = useFetch(`https://darkshots-server.onrender.com/api/jobs`);
+  const {
+    data: categories,
+    isLoading: isLoadingCategories,
+    refresh: refreshCategories,
+  } = useFetch(`https://darkshots-server.onrender.com/api/categories`);
 
   const [displayJobsByCategory, setDisplayJobsByCategory] = useState({});
 
@@ -34,76 +39,107 @@ const HomeScreen = ({ navigation }) => {
     fetchJobs();
   }, [jobs, categories]);
 
+  const handleRefresh = () => {
+    refreshJobs();
+    refreshCategories();
+  };
+
   return (
     <>
-      <MainContainer>
-        <SectionContainer
-          header={"jobs offered"}
-          subHeader={"home based, hybrid"}
-        ></SectionContainer>
+      <Appbar.Header
+        style={{ backgroundColor: COLORS.primary }}
+      ></Appbar.Header>
+      <MainContainer
+        hasSlipContainer
+        isDark
+        refresh={handleRefresh}
+        isLoading={isLoadingJobs || isLoadingCategories}
+      >
+        <SlipContainer title={"Let's find the perfect job for you"}>
+          <Searchbar
+            placeholder="Search"
+            onFocus={() => navigation.navigate("JobSearch")}
+            style={{
+              backgroundColor: COLORS.white,
+              zIndex: 1,
+              elevation: 5, // For Android shadow
+              shadowColor: "#000000", // For iOS shadow
+              shadowOffset: { width: 0, height: 1 },
+              shadowOpacity: 0.25,
+              shadowRadius: 4,
+              marginTop: -65,
+              marginBottom: 20,
+            }}
+          />
+          <SectionContainer
+            header={"jobs offered"}
+            subHeader={"home based, hybrid"}
+          >
+            <ScrollView horizontal={true} style={{ paddingBottom: 15 }}>
+              <CustomButton variant={"filter"} label={"All"} />
+              {categories.map((category, index) => (
+                <CustomButton
+                  key={index}
+                  variant={"filter"}
+                  label={category?.title}
+                />
+              ))}
+            </ScrollView>
 
-        <ScrollView horizontal={true}>
-          <CustomButton variant={"view"} label={"All"}></CustomButton>
-          {categories.map((category, index) => {
-            return (
-              <View
-                style={{
-                  marginEnd: 5,
-                  paddingBottom: 10,
-                }}
-              >
-                <CustomButton variant={"view"} label={category?.title} />
-              </View>
-            );
-          })}
-        </ScrollView>
-
-        <View style={{ flex: 1 }}>
-          {categories.length > 0 ? (
-            categories.map((category) => (
-              <View key={category._id}>
-                <View style={{ paddingVertical: 20 }}>
-                  <CustomText
-                    size={"lg"}
-                    font={"poppinsMedium"}
-                    transform={"uppercase"}
-                  >
-                    {category.title}
-                  </CustomText>
-                </View>
-
-                {displayJobsByCategory[category._id] &&
-                displayJobsByCategory[category._id].length > 0 ? (
-                  displayJobsByCategory[category._id].map((job, index) => (
-                    <View
-                      key={index}
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        marginBottom: 12,
-                      }}
-                    >
-                      <View style={{ flex: 1, textTransform: "capitalize" }}>
-                        <CustomText>{job.title}</CustomText>
-                      </View>
-
-                      <CustomButton
-                        variant={"learn"}
-                        label={"learn more"}
-                        width={100}
-                        onPress={() => navigation.navigate("ViewJob", { job })}
-                      />
+            <View style={{ flex: 1 }}>
+              {isLoadingJobs || isLoadingCategories ? (
+                <ActivityIndicator size="large" color="#e0e0e0" />
+              ) : categories.length > 0 ? (
+                categories.map((category, index) => (
+                  <View key={index}>
+                    <View style={{ paddingVertical: 20 }}>
+                      <CustomText
+                        size={"lg"}
+                        font={"poppinsMedium"}
+                        transform={"uppercase"}
+                      >
+                        {category.title}
+                      </CustomText>
                     </View>
-                  ))
-                ) : (
-                  <Text>No jobs available in this category</Text>
-                )}
-              </View>
-            ))
-          ) : (
-            <Text>No categories available</Text>
-          )}
-        </View>
+
+                    {displayJobsByCategory[category._id] &&
+                    displayJobsByCategory[category._id].length > 0 ? (
+                      displayJobsByCategory[category._id].map((job, index) => (
+                        <View
+                          key={index}
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            marginBottom: 12,
+                          }}
+                        >
+                          <View
+                            style={{ flex: 1, textTransform: "capitalize" }}
+                          >
+                            <CustomText>{job.title}</CustomText>
+                          </View>
+
+                          <CustomButton
+                            variant={"learn"}
+                            label={"learn more"}
+                            width={100}
+                            onPress={() =>
+                              navigation.navigate("ViewJob", { job })
+                            }
+                          />
+                        </View>
+                      ))
+                    ) : (
+                      <ActivityIndicator size="large" color="#e0e0e0" />
+                    )}
+                  </View>
+                ))
+              ) : (
+                <Text>No categories available</Text>
+              )}
+            </View>
+          </SectionContainer>
+        </SlipContainer>
       </MainContainer>
     </>
   );

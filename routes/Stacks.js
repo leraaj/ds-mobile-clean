@@ -1,5 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
+import { Platform, StyleSheet } from "react-native";
 import { useFonts } from "expo-font";
 import { COLORS, SIZES } from "../constant/Index";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -42,8 +43,8 @@ const Stacks = () => {
   return (
     <Stack.Navigator
       initialRouteName={
-        // user
-        true ? "EditProfile" : "Login"
+        //user
+        true ? "Authenticated" : "ViewJob"
       }
       screenOptions={{ headerShown: false }}
     >
@@ -82,7 +83,7 @@ const Stacks = () => {
           )
         ) : (
           <>
-            {/* <Stack.Screen name="Blank" component={BlankScreen} /> */}
+            <Stack.Screen name="Blank" component={BlankScreen} />
             <Stack.Screen name="Login" component={LoginScreen} />
           </>
         )
@@ -98,8 +99,11 @@ const HasBottomTabNavigation = () => (
       tabBarInactiveTintColor: "gray",
       tabBarStyle: {
         backgroundColor: COLORS.secondary,
-        height: 80,
-        paddingVertical: 10,
+        position: "absolute",
+        ...Platform.select({
+          ios: { height: 80, padding: 10 },
+          android: { height: 55, padding: 10 },
+        }),
       },
       tabBarIcon: ({ size, color }) => {
         let iconName;
@@ -111,7 +115,6 @@ const HasBottomTabNavigation = () => (
         } else if (route.name === "Profile") {
           iconName = "account";
         }
-
         return (
           <MaterialCommunityIcons name={iconName} size={size} color={color} />
         );

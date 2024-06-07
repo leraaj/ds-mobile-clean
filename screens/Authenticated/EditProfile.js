@@ -76,33 +76,8 @@ const EditProfile = ({}) => {
 
         <SectionContainer header={"skills"}></SectionContainer>
         <SectionContainer header={"files"}>
-          <CustomText size={"md"} font={"poppinsMedium"}>
-            {"Resume"}
-          </CustomText>
-
-          <View style={{ flexDirection: "row" }}>
-            <CustomText label={"Download"}>
-              {selectedFile ? selectedFile.name : "file.pdf"}
-            </CustomText>
-
-            <CustomButton
-              onPress={handleFilePick}
-              variant={"internal"}
-              label={"Download"}
-            ></CustomButton>
-            <Image
-              source={download}
-              style={{
-                tintColor: "red",
-                height: 20,
-                width: 18,
-              }}
-            ></Image>
-          </View>
-
-          <CustomText size={"md"} font={"poppinsMedium"}>
-            {"View Portfolio"}
-          </CustomText>
+          <CustomButton title="Resume" isChooseFile disabled />
+          <CustomButton variant={"multiple"} />
         </SectionContainer>
       </MainContainer>
     </>

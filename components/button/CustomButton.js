@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
   Text,
   TouchableHighlight,
+  View,
+  Image,
 } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 
@@ -16,7 +18,21 @@ import {
   SIZES,
   SHADOWS,
 } from "../../constant/Index";
-const CustomButton = ({ label, variant, onPress, isLoading, width }) => {
+import CustomInput from "../Inputs/CustomInput";
+const CustomButton = ({
+  label,
+  variant,
+  onPress,
+  isLoading,
+  width,
+  isChooseFile,
+  value,
+  placeholder,
+  onChangeText,
+  title,
+  disabled,
+  isLight,
+}) => {
   const buttonStyle = (variant) => {
     switch (variant) {
       case "landing":
@@ -33,6 +49,8 @@ const CustomButton = ({ label, variant, onPress, isLoading, width }) => {
         return styles.noButton;
       case "filter":
         return styles.filterButton;
+      case "multiple":
+        return styles.chooseMultiple;
       default:
         return styles.internalButton;
     }
@@ -40,7 +58,47 @@ const CustomButton = ({ label, variant, onPress, isLoading, width }) => {
 
   const { button, label: labelStyle } = buttonStyle(variant);
 
-  return (
+  return isChooseFile ? (
+    <View style={styles.choosefileContainer}>
+      <View style={{ flex: 1 }}>
+        <CustomInput
+          isDownload
+          title={title}
+          value={value}
+          onChangeText={onChangeText}
+          placeholder={placeholder}
+          disabled={disabled}
+          isLight={isLight}
+        />
+      </View>
+      <TouchableOpacity
+        style={[
+          styles.chooseFileButton.button,
+          { backgroundColor: isLight ? COLORS.lightWhite : COLORS.black },
+        ]}
+        disabled={disabled}
+      >
+        <Text
+          style={[
+            styles.chooseFileButton.label,
+            { color: isLight ? COLORS.black : COLORS.lightWhite },
+          ]}
+        >
+          Download
+        </Text>
+        <Image
+          source={icons.download}
+          resizeMode="contain"
+          style={[
+            styles.logoStyle,
+            {
+              tintColor: isLight ? "black" : "white",
+            },
+          ]}
+        />
+      </TouchableOpacity>
+    </View>
+  ) : (
     <TouchableOpacity
       activeOpacity={0.75}
       style={[button, { width: width || "auto" }]}
@@ -171,6 +229,54 @@ const styles = StyleSheet.create({
       fontSize: SIZES.small,
       textTransform: "capitalize",
       fontFamily: FONT.poppinsMedium,
+    },
+  },
+  // CHOOSEFILEBUTTON
+  choosefileContainer: {
+    flexDirection: "row",
+    flex: 1,
+    alignItems: "flex-end",
+  },
+  chooseFileButton: {
+    button: {
+      backgroundColor: COLORS.secondary,
+      height: 40,
+      paddingHorizontal: 15,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      borderTopLeftRadius: 10,
+      borderTopRightRadius: 10,
+      borderBottomRightRadius: 10,
+      flexDirection: "row",
+      gap: 10,
+    },
+    label: {
+      color: "#FFFFFF",
+      fontSize: 15,
+      textTransform: "capitalize",
+      fontFamily: FONT.montserrat,
+    },
+  },
+  logoStyle: {
+    height: 20,
+    width: 20,
+  },
+  // CHOOSEMULTIPLEBUTTON
+  chooseMultiple: {
+    button: {
+      height: 100,
+      justifyContent: "center",
+      alignItems: "center",
+      borderStyle: "dashed",
+      borderWidth: 2,
+      padding: 10,
+      borderRadius: 5,
+    },
+    label: {
+      fontSize: 15,
+      textTransform: "capitalize",
+      fontFamily: FONT.poppins,
     },
   },
 });
