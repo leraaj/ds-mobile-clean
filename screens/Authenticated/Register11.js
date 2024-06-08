@@ -29,7 +29,7 @@ const Register11 = ({}) => {
       ></SectionContainer>
 
       <View style={{ flexWrap: "wrap", flexDirection: "row", gap: 8 }}>
-        <CustomButton variant={"learn"} isLight></CustomButton>
+        {/* <CustomButton variant={"learn"} isLight></CustomButton>
 
         <CustomButton variant={"learn"} label={"Test"} isLight></CustomButton>
         <CustomButton variant={"learn"} label={"Test"} isLight></CustomButton>
@@ -42,7 +42,7 @@ const Register11 = ({}) => {
         <CustomButton variant={"learn"} label={"Test"} isLight></CustomButton>
         <CustomButton variant={"learn"} label={"Test"} isLight></CustomButton>
         <CustomButton variant={"learn"} label={"Test"} isLight></CustomButton>
-        <CustomButton variant={"learn"} label={"Test"} isLight></CustomButton>
+        <CustomButton variant={"learn"} label={"Test"} isLight></CustomButton> */}
       </View>
 
       <View style={{ paddingVertical: 30 }}>

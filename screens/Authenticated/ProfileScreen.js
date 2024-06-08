@@ -74,7 +74,7 @@ const ProfileScreen = ({ navigation }) => {
           </View>
         </SectionContainer>
         <SectionContainer header={"skills"}>
-          <View
+          {/* <View
             style={{
               flexWrap: "wrap",
               flexDirection: "row",
@@ -87,7 +87,7 @@ const ProfileScreen = ({ navigation }) => {
               label={"Test"}
               isLight
             ></CustomButton>
-          </View>
+          </View> */}
         </SectionContainer>
 
         <SectionContainer header={"files"}>

@@ -46,7 +46,7 @@ const RegisterScreen = ({ navigation }) => {
         <CustomButton
           variant={"landing"}
           label={"NEXT"}
-          onPress={() => navigation.navigate("HomeScreen")}
+          onPress={() => navigation.navigate("Register11")}
         ></CustomButton>
       </View>
 

@@ -4,6 +4,8 @@ import { AuthContext } from "../../context/AuthContext";
 import MainContainer from "../../components/container/MainContainer";
 import CustomText from "../../components/text/CustomText";
 import CustomButton from "../../components/button/CustomButton";
+import Appbar from "react-native-paper/src/components/Appbar";
+import SectionContainer from "../../components/container/SectionContainer";
 
 const NotificationScreen = ({ navigation }) => {
   const { state, auth } = useContext(AuthContext);
@@ -14,10 +16,16 @@ const NotificationScreen = ({ navigation }) => {
   };
 
   return (
-    <MainContainer>
-      <CustomText>Notification Screen</CustomText>
-      <CustomButton label={"Logout"} onPress={handleLogout} />
-    </MainContainer>
+    <>
+      <Appbar.Header>
+        <Appbar.BackAction onPress={() => navigation.goBack()} />
+        <Appbar.Content />
+      </Appbar.Header>
+      <MainContainer>
+        <SectionContainer header={"Notifications"}></SectionContainer>
+        <CustomButton label={"Logout"} onPress={handleLogout} />
+      </MainContainer>
+    </>
   );
 };
 

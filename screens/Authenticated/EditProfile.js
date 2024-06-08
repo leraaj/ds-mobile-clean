@@ -75,7 +75,7 @@ const EditProfile = ({}) => {
         </View>
 
         <SectionContainer header={"skills"}>
-          <View
+          {/* <View
             style={{
               flexWrap: "wrap",
               flexDirection: "row",
@@ -88,7 +88,7 @@ const EditProfile = ({}) => {
               label={"Test"}
               isLight
             ></CustomButton>
-          </View>
+          </View> */}
         </SectionContainer>
 
         <SectionContainer header={"files"}>
