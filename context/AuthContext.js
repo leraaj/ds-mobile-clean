@@ -137,11 +137,13 @@ const AuthProvider = ({ children, navigation }) => {
           // console.error(error);
         }
       },
-      logout: async () => {
+      logout: async (id) => {
         try {
           setIsLoading(true);
+          const user = state?.user;
+          console.log(user);
           const response = await fetch(
-            `${REACT_APP_API_URL}/api/user/logout/${state?.user?._id}`,
+            `${REACT_APP_API_URL}/api/user/logout/${id}`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },

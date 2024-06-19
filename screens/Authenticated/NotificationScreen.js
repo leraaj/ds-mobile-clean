@@ -70,6 +70,9 @@ const NotificationScreen = ({ navigation }) => {
                         notif?.disabled == false
                           ? /* 1 ) */ `Your application request has been sent - Application: ${notif?.applicationStatus}`
                           : notif?.applicationStatus === 2 &&
+                            notif?.disabled == false
+                          ? /* 2 ) */ `Your application request has been accepted - Application: ${notif?.applicationStatus}`
+                          : notif?.applicationStatus === 2 &&
                             notif?.disabled == true
                           ? /* 2 ) */ `Your application request has been accepted - Application: ${notif?.applicationStatus}`
                           : notif?.appointmentStatus === 1 && notif?.phase == 0

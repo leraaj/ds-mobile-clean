@@ -49,13 +49,12 @@ const ViewNotification = ({ navigation, route }) => {
       <MainContainer>
         <SectionContainer header={"notifications"}>
           <CustomText>
-            {JSON.stringify}
             {/* Applicant sending application  */}
             {data.applicationStatus === 1 &&
               data.disabled === false &&
               `Hi, ${data.user.fullName}!\n\n     Thank you for taking the time in sending your application to Darkshots!\n\nI would like to inform you that you have been shortlisted for the role of ${data.job.title}`}
             {data.applicationStatus === 2 &&
-              data.disabled === true &&
+              (data.disabled === false || data?.disabled === true) &&
               `Hello, ${data.user.fullName}!\n\n  Thank you for submitting your application to Darkshots.\n\n   I’m pleased to inform you that your application has been accepted. Please wait while we schedule an appointment for you.`}
             {/* ========================================= */}
             {/* Invitation for initial interview  */}

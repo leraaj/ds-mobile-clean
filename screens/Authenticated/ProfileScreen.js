@@ -16,7 +16,7 @@ const ProfileScreen = ({ navigation }) => {
   const { state, auth } = useContext(AuthContext);
   const { user } = state;
   const handleLogout = () => {
-    auth.logout(); // Call logout method from AuthContext
+    auth.logout(user?._id); // Call logout method from AuthContext
   };
 
   const [selectedFile, setSelectedFile] = useState(null);
