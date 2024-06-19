@@ -4,7 +4,7 @@ import CustomText from "../text/CustomText";
 
 const SectionContainer = ({ children, header, subHeader, isLight }) => {
   return (
-    <View style={{ flexDirection: "column" }}>
+    <View style={{ flexDirection: "column", paddingTop: 15 }}>
       <CustomText isLight={isLight} isHeader subHeader={subHeader}>
         {header}
       </CustomText>

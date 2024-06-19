@@ -7,6 +7,7 @@ import useFetch from "../../hooks/useFetch";
 import CustomText from "../../components/text/CustomText";
 import CustomButton from "../../components/button/CustomButton";
 
+import { REACT_APP_API_URL } from "@env";
 const ViewJobSearch = ({ navigation }) => {
   const inputRef = useRef();
   const focusTextInput = () => {
@@ -14,7 +15,7 @@ const ViewJobSearch = ({ navigation }) => {
   };
   const [searchQuery, setSearchQuery] = React.useState("");
   const { data: jobs, loading: jobLoading } = useFetch(
-    "https://darkshots-server.onrender.com/api/jobs"
+    `${REACT_APP_API_URL}/api/jobs`
   );
   const filteredJobs = jobs?.filter((job) =>
     job.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -76,14 +77,12 @@ const ViewJobSearch = ({ navigation }) => {
                         justifyContent: "space-between",
                         paddingVertical: 10,
                         alignItems: "center",
-                      }}
-                    >
+                      }}>
                       <Text
                         style={{
                           flex: 1,
                           flexWrap: "nowrap",
-                        }}
-                      >
+                        }}>
                         {job.title}
                       </Text>
                       <CustomButton

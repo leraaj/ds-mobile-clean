@@ -26,6 +26,7 @@ import Register131 from "../screens/Authenticated/Register131";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
 const Stacks = () => {
   const { state, isLoading } = useAuthContext();
   const { user } = state;
@@ -41,57 +42,52 @@ const Stacks = () => {
   if (!fontsLoaded) {
     return <LoadingScreen />;
   }
+
   return (
     <Stack.Navigator
-      initialRouteName={
-        //user
-        true ? "ViewNotification" : "Login"
-      }
-      screenOptions={{ headerShown: false }}
-    >
-      {
-        //user
-        true ? (
-          isLoading ? (
-            <Stack.Screen name="Loading" component={LoadingScreen} />
-          ) : (
-            <>
-              <Stack.Screen
-                name="Authenticated"
-                component={HasBottomTabNavigation}
-              />
-              <Stack.Screen name="ViewJob" component={ViewJobScreen} />
-              <Stack.Screen name="JobSearch" component={ViewJobSearch} />
-              <Stack.Screen name="HomeScreen" component={HomeScreen} />
-              <Stack.Screen name="Profile" component={ProfileScreen} />
-              <Stack.Screen name="EditProfile" component={EditProfile} />
-              <Stack.Screen name="ViewPortfolio" component={ViewPortfolio} />
-              <Stack.Screen name="ViewImage" component={ViewImage} />
-              <Stack.Screen
-                name="NotificationScreen"
-                component={NotificationScreen}
-              />
-              <Stack.Screen
-                name="ViewNotification"
-                component={ViewNotification}
-              />
-              <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-              <Stack.Screen name="Register11" component={Register11} />
-              <Stack.Screen name="Register12" component={Register12} />
-              <Stack.Screen name="Register13" component={Register13} />
-              <Stack.Screen name="Register131" component={Register131} />
-            </>
-          )
+      initialRouteName={user ? "Authenticated" : "Login"}
+      screenOptions={{ headerShown: false }}>
+      {user ? (
+        isLoading ? (
+          <Stack.Screen name="Loading" component={LoadingScreen} />
         ) : (
           <>
-            <Stack.Screen name="Blank" component={BlankScreen} />
-            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen
+              name="Authenticated"
+              component={HasBottomTabNavigation}
+            />
+            <Stack.Screen name="ViewJob" component={ViewJobScreen} />
+            <Stack.Screen name="JobSearch" component={ViewJobSearch} />
+            <Stack.Screen name="HomeScreen" component={HomeScreen} />
+            <Stack.Screen name="Profile" component={ProfileScreen} />
+            <Stack.Screen name="EditProfile" component={EditProfile} />
+            <Stack.Screen name="ViewPortfolio" component={ViewPortfolio} />
+            <Stack.Screen name="ViewImage" component={ViewImage} />
+            <Stack.Screen
+              name="NotificationScreen"
+              component={NotificationScreen}
+            />
+            <Stack.Screen
+              name="ViewNotification"
+              component={ViewNotification}
+            />
+            <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+            <Stack.Screen name="Register11" component={Register11} />
+            <Stack.Screen name="Register12" component={Register12} />
+            <Stack.Screen name="Register13" component={Register13} />
+            <Stack.Screen name="Register131" component={Register131} />
           </>
         )
-      }
+      ) : (
+        <>
+          <Stack.Screen name="Blank" component={BlankScreen} />
+          <Stack.Screen name="Login" component={LoginScreen} />
+        </>
+      )}
     </Stack.Navigator>
   );
 };
+
 const HasBottomTabNavigation = () => (
   <Tab.Navigator
     screenOptions={({ route }) => ({
@@ -120,8 +116,7 @@ const HasBottomTabNavigation = () => (
           <MaterialCommunityIcons name={iconName} size={size} color={color} />
         );
       },
-    })}
-  >
+    })}>
     <Tab.Screen
       name="Home"
       component={HomeScreen}
@@ -148,4 +143,5 @@ const HasBottomTabNavigation = () => (
     />
   </Tab.Navigator>
 );
+
 export default Stacks;

@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import * as SecureStore from "expo-secure-store";
-import LoadingScreen from "../routes/LoadingScreen";
+import { REACT_APP_API_URL } from "@env";
 
 const AuthContext = createContext();
 
@@ -30,7 +30,7 @@ const AuthProvider = ({ children, navigation }) => {
   const [error, setError] = useState(null);
   const [loginSuccess, setLoginSuccess] = useState(false);
 
-  const URL = `https://darkshots-server.onrender.com/api/user/current-user-mobile`;
+  const URL = `${REACT_APP_API_URL}/api/user/current-user-mobile`;
 
   const refreshUser = async () => {
     setIsLoading(true);
@@ -58,17 +58,43 @@ const AuthProvider = ({ children, navigation }) => {
       } else {
         // console.error("message: ", data.message);
         setError(data.message);
-        dispatch({ type: "LOGOUT" });
+        dispatch({ type: "LOGOUT", token: null, user: null });
       }
     } catch (error) {
       setError(error.message);
       // console.error("Error refreshing user:", error);
-      dispatch({ type: "LOGOUT" });
+      dispatch({ type: "LOGOUT", token: null, user: null });
     } finally {
       setIsLoading(false);
     }
   };
-
+  // NOTIFICATION - START
+  const [notifications, setNotifications] = useState([]);
+  const [notificationLoading, setNotificationLoading] = useState(false);
+  const loadNotifications = async () => {
+    try {
+      setNotificationLoading(true);
+      const userId = state?.user?._id;
+      const response = await fetch(
+        `${REACT_APP_API_URL}/api/notifications/${userId}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          sameSite: "None",
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        setNotificationLoading(false);
+        setNotifications(data);
+      }
+    } catch (error) {
+      setNotificationLoading(false);
+      console.error(error);
+    }
+  };
+  // NOTIFICATION - END
   useEffect(() => {
     refreshUser();
   }, []);
@@ -78,16 +104,13 @@ const AuthProvider = ({ children, navigation }) => {
       login: async (data) => {
         setIsLoading(true);
         try {
-          const response = await fetch(
-            "https://darkshots-server.onrender.com/api/user/login",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              credentials: "include",
-              body: JSON.stringify(data),
-              sameSite: "None",
-            }
-          );
+          const response = await fetch(`${REACT_APP_API_URL}/api/user/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify(data),
+            sameSite: "None",
+          });
 
           if (response.ok) {
             const { user, token } = await response.json();
@@ -100,6 +123,7 @@ const AuthProvider = ({ children, navigation }) => {
                 setIsLoading(false);
                 navigation.navigate("Home");
               }, 3000);
+              console.log(user);
             } else {
               setIsLoading(false);
               setError("Invalid username or password");
@@ -116,13 +140,25 @@ const AuthProvider = ({ children, navigation }) => {
       logout: async () => {
         try {
           setIsLoading(true);
-          await SecureStore.deleteItemAsync("token");
-          setTimeout(() => {
-            dispatch({ type: "LOGOUT" });
-            setIsLoading(false);
-            setLoginSuccess(false);
-            navigation.navigate("Login");
-          }, 3000);
+          const response = await fetch(
+            `${REACT_APP_API_URL}/api/user/logout/${state?.user?._id}`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              credentials: "include",
+              sameSite: "None",
+            }
+          );
+
+          if (response.ok) {
+            await SecureStore.deleteItemAsync("token");
+            setTimeout(() => {
+              dispatch({ type: "LOGOUT" });
+              setIsLoading(false);
+              setLoginSuccess(false);
+              navigation.navigate("Login");
+            }, 1000);
+          }
         } catch (e) {
           console.error("Failed to delete the user token.", e);
         }
@@ -138,8 +174,17 @@ const AuthProvider = ({ children, navigation }) => {
 
   return (
     <AuthContext.Provider
-      value={{ state, auth, isLoading, error, loginSuccess }}
-    >
+      value={{
+        state,
+        auth,
+        isLoading,
+        error,
+        loginSuccess,
+        // NOTIFICATIONS
+        notificationLoading,
+        loadNotifications,
+        notifications,
+      }}>
       {children}
     </AuthContext.Provider>
   );

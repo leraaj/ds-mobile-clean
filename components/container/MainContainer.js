@@ -37,20 +37,18 @@ const MainContainer = ({
       contentContainerStyle={[
         isCentered && styles.scrollViewContent,
         {
-          backgroundColor: isDark ? COLORS.primary : "transparent",
+          backgroundColor: isDark ? COLORS.primary : COLORS.lightWhite,
         },
       ]}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
+      }>
       <SafeAreaView style={styles.safeArea}>
         <View
           style={[
             !hasSlipContainer && styles.innerContainer,
             isCentered && styles.center,
-          ]}
-        >
+          ]}>
           {children}
         </View>
       </SafeAreaView>

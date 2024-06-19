@@ -45,6 +45,7 @@ const ProfileScreen = ({ navigation }) => {
           icon={MORE_ICON}
           onPress={() => navigation.navigate("EditProfile")}
         />
+        <Appbar.Action icon={"logout"} onPress={handleLogout} />
       </Appbar.Header>
       <MainContainer>
         <SectionContainer header={"profile"}>
@@ -55,15 +56,13 @@ const ProfileScreen = ({ navigation }) => {
               height: 80,
               width: 80,
               marginBottom: 20,
-            }}
-          ></Image>
+            }}></Image>
           <View
             style={{
               display: "flex",
               rowGap: 20,
               paddingBottom: 30,
-            }}
-          >
+            }}>
             <CustomInput title={"Full Name"} value={user?.fullName} disabled />
             <CustomInput title={"Email"} value={user?.email} disabled />
             <CustomInput
@@ -116,7 +115,7 @@ export const styles = StyleSheet.create({
     marginBottom: 50,
   },
   uploadText: {
-    fontFamily: "Poppins-Regular",
+    fontFamily: "Poppins",
     color: "#18191A",
     fontSize: 15,
     alignSelf: "center",

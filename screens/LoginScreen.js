@@ -6,6 +6,7 @@ import CustomInput from "../components/Inputs/CustomInput";
 import MainContainer from "../components/container/MainContainer";
 import CustomText from "../components/text/CustomText";
 import { SIZES } from "../constant/theme";
+import LogginInLoadingScreen from "../routes/LoggingInLoadingScreen";
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -31,7 +32,6 @@ const LoginScreen = ({ navigation }) => {
       }
     }
   };
-
   return (
     <MainContainer isCentered isDark>
       <Image
@@ -62,13 +62,12 @@ const LoginScreen = ({ navigation }) => {
           isLoading={isLoading}
           onPress={handleLogin}
         />
-        <View style={{ alignItems: "flex-end" }}>
+        <View style={{ alignItems: "center" }}>
           <CustomText font={"montserrat"} size={SIZES.xSmall} isLight>
             Don’t have an account?{" "}
             <CustomText
               style={{ fontWeight: "bold" }}
-              onPress={() => navigation.navigate("Register")}
-            >
+              onPress={() => navigation.navigate("Register")}>
               Sign up
             </CustomText>
           </CustomText>
@@ -79,7 +78,7 @@ const LoginScreen = ({ navigation }) => {
           onPress={() => navigation.navigate("Blank")}
         /> */}
       </View>
-      <Text style={{ width: "100%" }}>{error}</Text>
+      <Text style={{ width: "100%", color: "red" }}>{error}</Text>
     </MainContainer>
   );
 };
