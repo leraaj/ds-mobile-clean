@@ -9,7 +9,7 @@ import CustomInput from "../../components/Inputs/CustomInput";
 import CustomButton from "../../components/button/CustomButton";
 import download from "../../assets/icons/download.png";
 
-const EditProfile = ({}) => {
+const EditProfile = ({ navigation }) => {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFilePick = async () => {
@@ -36,7 +36,7 @@ const EditProfile = ({}) => {
   return (
     <>
       <Appbar.Header>
-        <Appbar.BackAction onPress={() => navigation.navigate("Home")} />
+        <Appbar.BackAction onPress={() => navigation.goBack()} />
       </Appbar.Header>
       <MainContainer>
         <SectionContainer header={"profile"}>
@@ -48,30 +48,25 @@ const EditProfile = ({}) => {
                 height: 80,
                 width: 80,
                 marginBottom: 20,
-              }}
-            ></Image>
+              }}></Image>
           </View>
         </SectionContainer>
         <View
           style={{
             display: "flex",
-          }}
-        >
+          }}>
           <CustomInput
             title={"Full Name"}
             value={user?.fullName}
-            onChangeText={""}
-          ></CustomInput>
+            onChangeText={""}></CustomInput>
           <CustomInput
             title={"Email"}
             value={user?.email}
-            onChangeText={""}
-          ></CustomInput>
+            onChangeText={""}></CustomInput>
           <CustomInput
             title={"Contact Number"}
             value={user?.contact}
-            onChangeText={""}
-          ></CustomInput>
+            onChangeText={""}></CustomInput>
         </View>
 
         <SectionContainer header={"skills"}>

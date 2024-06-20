@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import MainContainer from "../../components/container/MainContainer";
 import { Appbar } from "react-native-paper";
 import SectionContainer from "../../components/container/SectionContainer";
@@ -41,6 +41,22 @@ const ViewNotification = ({ navigation, route }) => {
     }
   };
   const { date, time, formattedTime } = useDateTimeFormatter(data.createdAt);
+  const InitialScreening =
+    data?.phase === 1 && data?.appointmentStatus === 1 && data?.complete === 0;
+  const FinalInterview =
+    data?.phase === 2 && data?.appointmentStatus === 1 && data?.complete === 0;
+  const ClientInterview =
+    data?.phase === 3 && data?.appointmentStatus === 1 && data?.complete === 0;
+
+  const InitialAccepted =
+    data?.appointmentStatus === 2 && data?.phase === 1 && data?.complete === 0;
+  const FinalAccepted =
+    data?.appointmentStatus === 2 && data?.phase === 2 && data?.complete === 0;
+  const ClientAccepted =
+    data?.appointmentStatus === 2 && data?.phase === 3 && data?.complete === 0;
+
+  const Hired =
+    data?.appointmentStatus === 2 && data?.phase === 3 && data?.complete === 1;
   return (
     <>
       <Appbar.Header>
@@ -49,39 +65,56 @@ const ViewNotification = ({ navigation, route }) => {
       <MainContainer>
         <SectionContainer header={"notifications"}>
           <CustomText>
-            {/* Applicant sending application  */}
-            {data.applicationStatus === 1 &&
-              data.disabled === false &&
-              `Hi, ${data.user.fullName}!\n\n     Thank you for taking the time in sending your application to Darkshots!\n\nI would like to inform you that you have been shortlisted for the role of ${data.job.title}`}
-            {data.applicationStatus === 2 &&
-              (data.disabled === false || data?.disabled === true) &&
-              `Hello, ${data.user.fullName}!\n\n  Thank you for submitting your application to Darkshots.\n\n   I’m pleased to inform you that your application has been accepted. Please wait while we schedule an appointment for you.`}
-            {/* ========================================= */}
-            {/* Invitation for initial interview  */}
-            {data.appointmentStatus === 1 &&
-              data.phase == 0 &&
-              `Hi ${data.user.fullName},\n\nGood day!\n\n   This email is to remind you about your scheduled initial interview regarding the position of ${data.job.title}.\n\nDate & time: ${date} / ${formattedTime}\nMeeting link: ${data.meetingLink}`}
-            {/* Reminder for initial interview  */}
-            {data.appointmentStatus === 2 &&
-              data.phase == 1 &&
-              `Hi ${data.user.fullName},\n\nGood day!\n\n   This email is to remind you about your scheduled initial interview regarding the position of ${data.job.title}.\n\nDate & time: ${date} / ${formattedTime}\nMeeting link: ${data.meetingLink}`}
-            {/* ========================================= */}
-            {/* Invitation for final interview  */}
-            {data.appointmentStatus === 1 &&
-              data.phase === 2 &&
-              `Hi ${data.user.fullName},\n\nGood day!\n\n   This email is to remind you about your scheduled final interview regarding the position of ${data.job.title}.\n\nDate & time: ${date} / ${formattedTime}\nMeeting Link: ${data.meetingLink}`}
-            {/* ========================================= */}
-            {/* Invitation for team introduction  */}
-            {data.appointmentStatus === 1 &&
-              data.phase === 3 &&
-              `Good Day!\n\nWe would like to invite you into the team briefing.\n\nDate & time: ${date} / ${formattedTime}\nMeeting Link: ${data.meetingLink}`}
-            {data.appointmentStatus === 3 &&
-              data.phase === 2 &&
-              `Congratulations, proceed to Final Interview?\n\nDate & time: ${date} ${formattedTime}\nMeeting Link: ${data.meetingLink}`}
+            {/* 1st Stage PENDING */}
+            {data.phase === 1 &&
+              data.applicationStatus === 1 &&
+              `You've sent an application	applying for the role of ${data.job.title}`}
+            {/* 2nd Stage IN-PROGRESS */}
+            {data.phase === 1 &&
+              data.applicationStatus === 2 &&
+              `Your request has been accepted, please wait for an appointment `}
+            {/* 3rd Stage DONE */}
+            {data.phase === 1 &&
+              data.applicationStatus === 2 &&
+              data.complete === 1 &&
+              `Invitation for Initial Interview`}
+            {/* Appointments Invitation */}
+            {(InitialScreening || FinalInterview || ClientInterview) &&
+              `${
+                InitialScreening
+                  ? "Initial Screening:\n"
+                  : FinalInterview
+                  ? "Final Interview\n"
+                  : ClientInterview
+                  ? "Client Interview\n"
+                  : ""
+              }Meeting Link: ${data.meetingLink}\nMeeting Schedule: ${
+                data.meetingTime
+              }`}
+            {(InitialAccepted || FinalAccepted || ClientAccepted) &&
+              `${
+                InitialAccepted
+                  ? "Initial Screening Details:\n"
+                  : FinalAccepted
+                  ? "Final Interview Details\n"
+                  : ClientAccepted
+                  ? "Client Interview Details\n"
+                  : ""
+              }\nMeeting Link: ${
+                data.meetingLink
+              }\nMeeting Schedule: ${date}, ${formattedTime}`}
+
+            {Hired &&
+              `Congratulations ${data?.user?.fullName}, please wait while the admin sets you up in a collaborative space with your client and several applicants, \n\nCheck your dashboard on the web to collaborate with your client and applicants\n\n` +
+                (
+                  <TouchableOpacity>
+                    <CustomText>https://darkshot-web.onrender.com</CustomText>
+                  </TouchableOpacity>
+                )}
           </CustomText>
           {/* PENDING */}
           {/* notif?.appointmentStatus === 1 && notif?.phase == 0 */}
-          {data.appointmentStatus === 1 && data?.phase == 0 && (
+          {InitialScreening && (
             <View
               style={{
                 flex: 1,
@@ -90,12 +123,12 @@ const ViewNotification = ({ navigation, route }) => {
                 gap: 5,
                 paddingVertical: 20,
               }}>
-              <Text>Pending</Text>
+              <Text>Initial Screening</Text>
               <CustomButton
                 variant="no"
                 label="No"
                 onPress={() => {
-                  const data = { phase: 1, appointmentStatus: -1 };
+                  const data = { phase: 1, appointmentStatus: -1, complete: 1 };
                   handleInterviewUpdate(data);
                 }}
               />
@@ -103,15 +136,13 @@ const ViewNotification = ({ navigation, route }) => {
                 variant="yes"
                 label="Yes, I'm available"
                 onPress={() => {
-                  const data = { phase: 1, appointmentStatus: 2 };
+                  const data = { phase: 1, appointmentStatus: 2, complete: 0 };
                   handleInterviewUpdate(data);
                 }}
               />
             </View>
           )}
-          {/* PENDING Initial Interview */}
-          {/* notif?.appointmentStatus === 2 && notif?.phase === 1 */}
-          {data.appointmentStatus === 1 && data.phase === 2 && (
+          {FinalInterview && (
             <View
               style={{
                 flex: 1,
@@ -125,7 +156,7 @@ const ViewNotification = ({ navigation, route }) => {
                 variant="no"
                 label="No"
                 onPress={() => {
-                  const data = { phase: 2, appointmentStatus: -1 };
+                  const data = { phase: 2, appointmentStatus: -1, complete: 0 };
                   handleInterviewUpdate(data);
                 }}
               />
@@ -133,13 +164,13 @@ const ViewNotification = ({ navigation, route }) => {
                 variant="yes"
                 label="Yes, I'm available"
                 onPress={() => {
-                  const data = { phase: 2, appointmentStatus: 2 };
+                  const data = { phase: 2, appointmentStatus: 2, complete: 0 };
                   handleInterviewUpdate(data);
                 }}
               />
             </View>
           )}
-          {data.appointmentStatus === 1 && data.phase === 3 && (
+          {ClientInterview && (
             <View
               style={{
                 flex: 1,
@@ -148,7 +179,7 @@ const ViewNotification = ({ navigation, route }) => {
                 gap: 5,
                 paddingVertical: 20,
               }}>
-              <Text>Final Interview</Text>
+              <Text>Client Interview</Text>
               <CustomButton
                 variant="no"
                 label="No"
@@ -161,12 +192,16 @@ const ViewNotification = ({ navigation, route }) => {
                 variant="yes"
                 label="Yes, I'm available"
                 onPress={() => {
-                  const data = { phase: 3, appointmentStatus: 2 };
+                  const data = { phase: 3, appointmentStatus: 2, complete: 0 };
                   handleInterviewUpdate(data);
                 }}
               />
             </View>
           )}
+          <CustomText>
+            {/* Debugg, erase if done */}
+            {`\n\nDebug:\nApplicationStatus: ${data.applicationStatus}\nAppointmentStatus: ${data.appointmentStatus}\nPhase: ${data.phase}\nComplete: ${data.complete}`}
+          </CustomText>
         </SectionContainer>
       </MainContainer>
     </>

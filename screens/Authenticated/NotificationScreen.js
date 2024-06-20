@@ -66,42 +66,43 @@ const NotificationScreen = ({ navigation }) => {
                     <CustomText size={"sm"}>position</CustomText>
                     <View style={styles.messageContainer}>
                       <CustomText>
-                        {notif?.applicationStatus === 1 &&
-                        notif?.disabled == false
-                          ? /* 1 ) */ `Your application request has been sent - Application: ${notif?.applicationStatus}`
+                        {notif?.applicationStatus === 1 && notif?.phase === 1
+                          ? /* 1 ) */ `Your application request has been sent\n${notif?.applicationStatus} - ${notif?.phase} - ${notif?.complete}`
                           : notif?.applicationStatus === 2 &&
-                            notif?.disabled == false
-                          ? /* 2 ) */ `Your application request has been accepted - Application: ${notif?.applicationStatus}`
-                          : notif?.applicationStatus === 2 &&
-                            notif?.disabled == true
-                          ? /* 2 ) */ `Your application request has been accepted - Application: ${notif?.applicationStatus}`
-                          : notif?.appointmentStatus === 1 && notif?.phase == 0
-                          ? /* 3 ) */ `Invitation for Initial Interview - Appointment: ${notif?.appointmentStatus}  Phase: ${notif?.phase}`
-                          : notif?.appointmentStatus === 2 && notif?.phase === 1
-                          ? /* 3.1 ) */ `You've accepted the inital appointment - Appointment: ${notif?.appointmentStatus}  Phase: ${notif?.phase}`
-                          : notif?.appointmentStatus === 1 && notif?.phase == 2
-                          ? /* 4 ) */ `Invitation for Final Interview - Appointment: ${notif?.appointmentStatus}  Phase: ${notif?.phase}`
-                          : notif?.appointmentStatus === 2 && notif?.phase === 2
-                          ? /* 4.1 ) */ `You've accepted the final appointment - Appointment: ${notif?.appointmentStatus}  Phase: ${notif?.phase}`
-                          : notif?.appointmentStatus === 1 && notif?.phase == 3
-                          ? /* 5 ) */ `Invitation for Collaborators interview - Appointment: ${notif?.appointmentStatus}  Phase: ${notif?.phase}`
-                          : notif?.appointmentStatus === 2 && notif?.phase == 3
-                          ? /* 5.1 ) */ `You've accepted the team introduction appointment - Appointment: ${notif?.appointmentStatus}  Phase: ${notif?.phase}`
-                          : notif?.appointmentStatus === -1 &&
-                            notif?.phase === 0
-                          ? /* 0.1 ) */ "Invitation for Initial Interview - Declined"
-                          : notif?.appointmentStatus === -1 &&
-                            notif?.phase === 1
-                          ? /* 0.2 ) */ "Invitation for Final Interview - Declined"
-                          : notif?.appointmentStatus === -1 &&
-                            notif?.phase === 2
-                          ? /* 0.3 ) */ "Invitation for Collaborators interview - Declined"
-                          : `Appointment status: ` +
-                            notif?.appointmentStatus +
-                            `\nphase: ` +
-                            notif?.phase +
-                            `\nApplicant status: ` +
-                            notif?.applicationStatus}
+                            notif?.phase === 1 &&
+                            (notif?.complete === 0 || notif?.complete === 1)
+                          ? /* 2 ) */ `Your application request has been accepted`
+                          : notif?.phase === 1 &&
+                            notif?.appointmentStatus === 1 &&
+                            notif?.complete === 0
+                          ? /* 3 ) */ `Invitation for Initial Interview`
+                          : notif?.appointmentStatus === 2 &&
+                            notif?.phase === 1 &&
+                            notif?.complete === 0
+                          ? /* 3.1 ) */ `You've accepted the initial appointment`
+                          : // Final Interview
+                          notif?.phase === 2 &&
+                            notif?.appointmentStatus === 1 &&
+                            notif?.complete === 0
+                          ? /* 4 ) */ `Invitation for Final Interview`
+                          : notif?.appointmentStatus === 2 &&
+                            notif?.phase === 2 &&
+                            notif?.complete === 0
+                          ? /* 4.1 ) */ `You've accepted the Final appointment`
+                          : // Client Interview
+                          notif?.phase === 3 &&
+                            notif?.appointmentStatus === 1 &&
+                            notif?.complete === 0
+                          ? /* 4 ) */ `Invitation for Client Interview`
+                          : notif?.appointmentStatus === 2 &&
+                            notif?.phase === 3 &&
+                            notif?.complete === 0
+                          ? /* 4.1 ) */ `You've accepted the Client appointment`
+                          : notif?.appointmentStatus === 2 &&
+                            notif?.phase === 3 &&
+                            notif?.complete === 1
+                          ? /* 4.1 ) */ `Congratulations you're hired`
+                          : ""}
                       </CustomText>
                     </View>
                   </View>

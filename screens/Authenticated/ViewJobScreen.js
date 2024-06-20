@@ -25,25 +25,28 @@ const ViewJobScreen = ({ navigation, route }) => {
       const data = {
         userId: user?._id,
         jobId: job?._id,
-        applicationStatus: 1,
       };
       const response = await fetch(`${REACT_APP_API_URL}/api/application`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         credentials: "include",
-        sameSite: "None",
         body: JSON.stringify(data),
       });
+
       const fnResponse = await response.json();
       if (response.ok) {
-        console.log(fnResponse);
-        loadNotifications(user._id);
         navigation.navigate("Notification");
+        loadNotifications(user?._id);
+      } else {
+        console.warn(fnResponse);
       }
     } catch (error) {
       console.error(error);
     }
   };
+
   return (
     <>
       <Appbar.Header style={{ backgroundColor: COLORS.primary, zIndex: 0 }}>
